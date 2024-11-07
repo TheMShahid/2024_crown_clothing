@@ -8,6 +8,7 @@ import HomePage from "./pages/homepage/homepage";
 import ShopPage from "./pages/shop/shop";
 import Header from "./components/header/header";
 import SignInAndSignUpPage from "./pages/sign-in-and-sign-up-page/sign-in-and-sign-up-page";
+import CheckoutPage from "./pages/checkout/checkout";
 import "./App.css";
 
 // firebase auth listener to update the state
@@ -15,6 +16,10 @@ import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
 
 // reducers and actions
 import { setCurrentUser } from "./redux/user/user.actions";
+
+// selectors
+import { createStructuredSelector } from "reselect";
+import { selectCurrentUser } from "./redux/user/user.selectors";
 
 // why we have change a functional component to a class component? because we want to use the state in our component.
 class App extends React.Component {
@@ -50,6 +55,7 @@ class App extends React.Component {
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route path="/shop" component={ShopPage} />
+          <Route exact path="/checkout" component={CheckoutPage} />
           <Route
             exact
             path="/signin"
@@ -67,8 +73,8 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = ({ user }) => ({
-  currentUser: user.currentUser,
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -12,6 +12,13 @@
   z-index: 5;
   transition: 5s all ease;
 
+  .empty-message {
+    font-size: 18px;
+    margin: 50px auto;
+    color: darkred;
+    font-weight: lighter;
+  }
+
   .cart-items {
     height: 240px;
     display: flex;
