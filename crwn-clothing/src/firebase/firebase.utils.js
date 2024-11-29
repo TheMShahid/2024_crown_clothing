@@ -14,6 +14,8 @@ const config = {
   measurementId: "G-49P1W8G34B",
 };
 
+firebase.initializeApp(config);
+
 export const createUserProfileDocument = async (userAuth, additionalData) => {
   if (!userAuth) return;
 
@@ -77,18 +79,26 @@ export const convertCollectionsSnapshotToMap = (collections) => {
 };
 
 // Initialize Firebase
-firebase.initializeApp(config);
+
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = auth.onAuthStateChanged((userAuth) => {
+      unsubscribe();
+      resolve(userAuth);
+    }, reject());
+  });
+};
 
 // Initialize Firestore and Auth
 export const firestore = firebase.firestore();
 export const auth = firebase.auth();
 
 // Google Auth Provider
-const provider = new firebase.auth.GoogleAuthProvider();
-provider.setCustomParameters({ prompt: "select_account" });
+export const googleProvider = new firebase.auth.GoogleAuthProvider();
+googleProvider.setCustomParameters({ prompt: "select_account" });
 
 // Sign in with Google function
-export const signInWithGoogle = () => auth.signInWithPopup(provider);
+export const signInWithGoogle = () => auth.signInWithPopup(googleProvider);
 
 // Export auth and firestore
 export default firebase;
